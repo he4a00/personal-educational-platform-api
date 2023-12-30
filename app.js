@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
   credentials: true,
-  origin: "https://personal-educational-platform.vercel.app/"
+  origin: "https://personal-educational-platform.vercel.app"
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
