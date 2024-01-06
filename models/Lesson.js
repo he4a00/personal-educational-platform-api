@@ -29,6 +29,16 @@ const lessonSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  section: {
+    type: String,
+    required: true,
+  },
+
+  assignment: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Assignment",
+  },
 });
 
 const Lesson = mongoose.model("Lesson", lessonSchema);

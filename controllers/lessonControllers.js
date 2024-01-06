@@ -3,7 +3,7 @@ import Lesson from "../models/Lesson.js";
 import cloudinary from "cloudinary";
 import multer from "multer";
 import fs from "fs";
-
+import { Assignment, Questions } from "../models/Assignment.js";
 
 dotenv.config();
 
@@ -67,7 +67,8 @@ const createLesson = async (req, res) => {
 
         const { secure_url: videoURL } = uploadedVideo;
 
-        const { title, isPaid, unit, classroom, desc, price  } = req.body;
+        const { title, isPaid, unit, classroom, desc, price, section } =
+          req.body;
 
         const existingLesson = await Lesson.findOne({ videoURL });
 
@@ -84,7 +85,8 @@ const createLesson = async (req, res) => {
           unit,
           classroom,
           desc,
-          price
+          price,
+          section,
         });
 
         return res.status(201).json(newLesson);
@@ -162,9 +164,33 @@ const deleteLesson = async (req, res) => {
       return res.status(404).json({ message: "No lesson found with that ID" });
     }
 
+    // Find the assignments associated with the lesson
+    const assignments = await Assignment.find({ lesson: lesson._id });
+
+    // Remove references to assignments in Questions and delete associated Answers
+    for (const assignment of assignments) {
+      for (const questionRef of assignment.questions) {
+        const question = await Questions.findById(questionRef.question);
+
+        if (question) {
+          await Questions.findByIdAndDelete(question._id); // Delete the question
+
+          // Delete associated answers (assuming they are stored within the same document)
+          // Modify this according to your schema if answers are in a separate collection
+          if (question.answers && question.answers.length > 0) {
+            await question.updateOne({ $unset: { answers: "" } }); // Unset the answers
+          }
+        }
+      }
+    }
+
+    // Delete the assignments associated with the lesson
+    await Assignment.deleteMany({ lesson: lesson._id });
+
+    // Delete the lesson itself
     const deletedLesson = await Lesson.findByIdAndDelete(lessonId);
 
-    return res.status(201).json(`Deleted ${deletedLesson}`);
+    return res.status(201).json(deletedLesson);
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -196,6 +222,21 @@ const categorizeByClass = async (req, res) => {
   }
 };
 
+// categorize the lessons based on the section and the unit then show the lessons with their section and unit
+const categorizeBySection = async (req, res) => {
+  try {
+    const { section, unit } = req.params;
+    const lessons = await Lesson.find({ section, unit });
+
+    if (lessons.length === 0) {
+      return res.status(404).json("There are no lessons in this section");
+    }
+    res.status(200).json({ lessons });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export {
   createLesson,
   getAllLessons,
@@ -203,4 +244,5 @@ export {
   deleteLesson,
   categorizeByUnit,
   categorizeByClass,
+  categorizeBySection,
 };
