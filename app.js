@@ -19,9 +19,9 @@ app.use(
   cors({
     credentials: true,
     origin:
-      process.env.NODE_ENV === "production"
-        ? "https://personal-educational-platform.vercel.app"
-        : "http://localhost:3000",
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://personal-educational-platform.vercel.app",
   })
 );
 app.use(express.json());
