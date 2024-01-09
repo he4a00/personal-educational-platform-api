@@ -40,4 +40,30 @@ const createAssignment = async (req, res) => {
   }
 };
 
-export { createAssignment };
+const getLessonAssignment = async (req, res) => {
+  const { lessonId } = req.params;
+
+  try {
+    const assignments = await Assignment.find({ lesson: lessonId })
+      .populate({
+        path: "questions.question",
+        model: "Questions",
+        populate: {
+          path: "answers",
+          model: "Answers",
+        },
+      })
+      .exec();
+
+    if (!assignments) {
+      return res.status(404).json({ message: "Assignments not found" });
+    }
+
+    res.status(200).json(assignments);
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { createAssignment, getLessonAssignment };
