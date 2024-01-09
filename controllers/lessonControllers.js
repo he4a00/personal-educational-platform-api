@@ -225,8 +225,8 @@ const categorizeByClass = async (req, res) => {
 // categorize the lessons based on the section and the unit then show the lessons with their section and unit
 const categorizeBySection = async (req, res) => {
   try {
-    const { section, unit } = req.params;
-    const lessons = await Lesson.find({ section, unit });
+    const { section, unit, classroom } = req.params;
+    const lessons = await Lesson.find({ section, unit, classroom });
 
     if (lessons.length === 0) {
       return res.status(404).json("There are no lessons in this section");

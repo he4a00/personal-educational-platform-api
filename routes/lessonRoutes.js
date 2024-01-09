@@ -18,6 +18,6 @@ router.get("/:lessonId", protect, getLessonById);
 router.delete("/:lessonId", verifyTokenAndAdmin, deleteLesson);
 router.get("/units/:unit", categorizeByUnit);
 router.get("/classes/:classroom", categorizeByClass);
-router.get("/classes/:section/:unit", categorizeBySection);
+router.get("/classes/:section/:unit/:classroom", categorizeBySection);
 
 export default router;
