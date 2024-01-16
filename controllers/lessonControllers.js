@@ -14,15 +14,15 @@ cloudinary.config({
 });
 
 // Create the 'uploads' folder if it doesn't exist
-const uploadsFolder = "uploads";
-if (!fs.existsSync(uploadsFolder)) {
-  fs.mkdirSync(uploadsFolder);
-  console.log(`'uploads' folder created`);
-} else {
-  console.log(`'uploads' folder already exists`);
-}
+// const uploadsFolder = "uploads";
+// if (!fs.existsSync(uploadsFolder)) {
+//   fs.mkdirSync(uploadsFolder);
+//   console.log(`'uploads' folder created`);
+// } else {
+//   console.log(`'uploads' folder already exists`);
+// }
 
-// Configure Multer for file uploads
+// // Configure Multer for file uploads
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
 //     cb(null, "uploads/"); // Define the destination folder for uploaded files
