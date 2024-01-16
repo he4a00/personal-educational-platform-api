@@ -23,14 +23,14 @@ if (!fs.existsSync(uploadsFolder)) {
 }
 
 // Configure Multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Define the destination folder for uploaded files
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Define how the uploaded files should be named
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/"); // Define the destination folder for uploaded files
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.originalname); // Define how the uploaded files should be named
+//   },
+// });
 
 const upload = multer({
   storage: storage,
