@@ -32,16 +32,16 @@ cloudinary.config({
 //   },
 // });
 
-const upload = multer({
-  storage: storage,
-  fileFilter: function (req, file, cb) {
-    if (file.mimetype.startsWith("video/")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Only video files are allowed"));
-    }
-  },
-}).single("videoURL");
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: function (req, file, cb) {
+//     if (file.mimetype.startsWith("video/")) {
+//       cb(null, true);
+//     } else {
+//       cb(new Error("Only video files are allowed"));
+//     }
+//   },
+// }).single("videoURL");
 
 const createLesson = async (req, res) => {
   try {
