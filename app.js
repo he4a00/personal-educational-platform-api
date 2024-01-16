@@ -11,8 +11,6 @@ import lessonRoutes from "./routes/lessonRoutes.js";
 import OwnedRoutes from "./routes/OwnedLessonsRoutes.js";
 import AssignmentRoutes from "./routes/AssignmentRoutes.js";
 
-connectDB();
-
 dotenv.config();
 const app = express();
 app.use(
