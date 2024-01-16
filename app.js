@@ -32,6 +32,10 @@ connectDB().then(() => {
   });
 });
 
+app.get("/api/", (req, res) => {
+  res.json("yo");
+});
+
 // routes
 
 app.use("/api/users", userRoutes);
