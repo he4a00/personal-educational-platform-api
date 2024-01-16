@@ -28,8 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.listen(process.env.PORT, () => {
-  console.log("listening on port", process.env.PORT);
+connectDB().then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log("listening on port", process.env.PORT);
+  });
 });
 
 // routes
