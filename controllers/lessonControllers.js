@@ -22,26 +22,23 @@ cloudinary.config({
 //   console.log(`'uploads' folder already exists`);
 // }
 
-// // Configure Multer for file uploads
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads/"); // Define the destination folder for uploaded files
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.originalname); // Define how the uploaded files should be named
-//   },
-// });
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Define how the uploaded files should be named
+  },
+});
 
-// const upload = multer({
-//   storage: storage,
-//   fileFilter: function (req, file, cb) {
-//     if (file.mimetype.startsWith("video/")) {
-//       cb(null, true);
-//     } else {
-//       cb(new Error("Only video files are allowed"));
-//     }
-//   },
-// }).single("videoURL");
+const upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    if (file.mimetype.startsWith("video/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only video files are allowed"));
+    }
+  },
+}).single("videoURL");
 
 const createLesson = async (req, res) => {
   try {
@@ -67,7 +64,7 @@ const createLesson = async (req, res) => {
 
         const { secure_url: videoURL } = uploadedVideo;
 
-        const { title, isPaid, unit, classroom, desc, price, section } =
+        const { title, isPaid, unit, classroom, desc, price, section, status } =
           req.body;
 
         const existingLesson = await Lesson.findOne({ videoURL });
@@ -87,6 +84,7 @@ const createLesson = async (req, res) => {
           desc,
           price,
           section,
+          status,
         });
 
         return res.status(201).json(newLesson);

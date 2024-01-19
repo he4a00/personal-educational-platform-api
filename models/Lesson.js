@@ -35,6 +35,13 @@ const lessonSchema = new mongoose.Schema({
     required: true,
   },
 
+  status: {
+    type: String,
+    required: true,
+    enum: ["free", "paid"],
+    default: "paid",
+  },
+
   assignment: {
     type: mongoose.Schema.ObjectId,
     ref: "Assignment",
