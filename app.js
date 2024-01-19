@@ -10,6 +10,7 @@ import userRoutes from "./routes/userRoutes.js";
 import lessonRoutes from "./routes/lessonRoutes.js";
 import OwnedRoutes from "./routes/OwnedLessonsRoutes.js";
 import AssignmentRoutes from "./routes/AssignmentRoutes.js";
+import feedbackRoutes from "./routes/feedbackRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -38,3 +39,4 @@ app.use("/api/users", userRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/owned", OwnedRoutes);
 app.use("/api/assignment", AssignmentRoutes);
+app.use("/api/feedbacks", feedbackRoutes);
