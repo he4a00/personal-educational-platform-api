@@ -69,4 +69,30 @@ const logout = async (req, res) => {
   res.status(201).json("User Logged Out");
 };
 
-export { register, login, logout };
+const getAllUsers = async (req, res) => {
+  try {
+    let query = {};
+
+    if (req.query.search) {
+      const searchRegex = new RegExp(req.query.search, "i");
+      query = {
+        $or: [{ firstname: searchRegex }, { phoneNumber: searchRegex }],
+      };
+    }
+
+    let users;
+
+    users = await User.find(query);
+
+    if (!req.query.search) {
+      users = [];
+    }
+    const usersCount = await User.countDocuments();
+
+    return res.status(201).json({ users, usersCount });
+  } catch (error) {
+    return res.status(500).json(error.message);
+  }
+};
+
+export { register, login, logout, getAllUsers };
