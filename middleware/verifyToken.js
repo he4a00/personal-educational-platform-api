@@ -36,7 +36,6 @@ const protect = async (req, res, next) => {
             }
           );
 
-          // Set the new access token in the response headers
           res.setHeader("Authorization", `Bearer ${newAccessToken}`);
 
           // Proceed with the request after setting the new access token
